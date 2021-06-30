@@ -21,11 +21,20 @@ public class ExcelListener<T> extends AnalysisEventListener<T> {
     private List<T> list = new ArrayList<>();
 
     @Override
-    public void invoke(T obj, AnalysisContext analysisContext) {
-        list.add(obj);
+    public void invoke(T t, AnalysisContext analysisContext) {
+        addBefore(t);
+        list.add(t);
+        addAfter(t);
     }
 
     @Override
     public void doAfterAllAnalysed(AnalysisContext analysisContext) {
     }
+
+    protected void addAfter(T t) {
+    }
+
+    protected void addBefore(T t) {
+    }
+
 }

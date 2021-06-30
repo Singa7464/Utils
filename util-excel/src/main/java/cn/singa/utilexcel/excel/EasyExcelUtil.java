@@ -48,6 +48,29 @@ public class EasyExcelUtil {
     }
 
     /**
+     * 读Excel
+     *
+     * @param clazz        数据模型
+     * @param filePath     文件路径
+     * @param readListener 自定义读取处理监听
+     * @return 数据集合
+     */
+    public static List readExcel(Class clazz, String filePath, ExcelListener readListener) {
+        if (notExcelFile(filePath)) {
+            log.warn("读取文件非excel文件:{}", filePath);
+            throw new IllegalExcelException(filePath);
+        }
+        File file = new File(filePath);
+        if (!file.exists()) {
+            log.error("读取文件不存在:{}", filePath);
+            throw new IllegalExcelException(filePath);
+        }
+
+        EasyExcelFactory.read(file, clazz, readListener).sheet(0).doRead();
+        return readListener.getList();
+    }
+
+    /**
      * 删除excel文件
      *
      * @param fileName 文件名
